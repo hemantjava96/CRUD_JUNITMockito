@@ -1,0 +1,182 @@
+[
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine0",
+            "district": "District0",
+            "pincode": "1234560",
+            "state": "State0"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName0",
+            "lname": "LastName0",
+            "mname": "MiddleName0"
+        },
+        "standard": 12,
+        "aadhar": "Aadhar1000"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine1",
+            "district": "District1",
+            "pincode": "1234561",
+            "state": "State1"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName1",
+            "lname": "LastName1",
+            "mname": "MiddleName1"
+        },
+        "standard": 6,
+        "aadhar": "Aadhar1001"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine2",
+            "district": "District2",
+            "pincode": "1234562",
+            "state": "State2"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName2",
+            "lname": "LastName2",
+            "mname": "MiddleName2"
+        },
+        "standard": 4,
+        "aadhar": "Aadhar1002"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine3",
+            "district": "District3",
+            "pincode": "1234563",
+            "state": "State3"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName3",
+            "lname": "LastName3",
+            "mname": "MiddleName3"
+        },
+        "standard": 2,
+        "aadhar": "Aadhar1003"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine4",
+            "district": "District4",
+            "pincode": "1234564",
+            "state": "State4"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName4",
+            "lname": "LastName4",
+            "mname": "MiddleName4"
+        },
+        "standard": 2,
+        "aadhar": "Aadhar1004"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine5",
+            "district": "District5",
+            "pincode": "1234565",
+            "state": "State5"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName5",
+            "lname": "LastName5",
+            "mname": "MiddleName5"
+        },
+        "standard": 9,
+        "aadhar": "Aadhar1005"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine6",
+            "district": "District6",
+            "pincode": "1234566",
+            "state": "State6"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName6",
+            "lname": "LastName6",
+            "mname": "MiddleName6"
+        },
+        "standard": 8,
+        "aadhar": "Aadhar1006"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine7",
+            "district": "District7",
+            "pincode": "1234567",
+            "state": "State7"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName7",
+            "lname": "LastName7",
+            "mname": "MiddleName7"
+        },
+        "standard": 6,
+        "aadhar": "Aadhar1007"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine8",
+            "district": "District8",
+            "pincode": "1234568",
+            "state": "State8"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName8",
+            "lname": "LastName8",
+            "mname": "MiddleName8"
+        },
+        "standard": 11,
+        "aadhar": "Aadhar1008"
+    },
+    {
+        "studentId": null,
+        "address": {
+            "addressId": null,
+            "address": "AddressLine9",
+            "district": "District9",
+            "pincode": "1234569",
+            "state": "State9"
+        },
+        "name": {
+            "nameId": null,
+            "fname": "FirstName9",
+            "lname": "LastName9",
+            "mname": "MiddleName9"
+        },
+        "standard": 9,
+        "aadhar": "Aadhar1009"
+    }
+]
