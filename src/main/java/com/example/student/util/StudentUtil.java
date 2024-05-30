@@ -11,7 +11,7 @@ import com.example.student.entity.Student;
 public class StudentUtil {
 	private static final Random RANDOM = new Random();
 
-	private static List<Student> generateDummyStudents(int count) {
+	public static List<Student> generateDummyStudents(int count) {
 		List<Student> students = new ArrayList<>(count);
 		for (int i = 0; i < count; i++) {
 			students.add(createDummyStudent(i));
