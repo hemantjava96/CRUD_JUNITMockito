@@ -10,6 +10,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  profiles:
+    active: prod
 logging:
   level:
     org:
@@ -19,4 +21,6 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
+
             
