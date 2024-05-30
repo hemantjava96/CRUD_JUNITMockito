@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AddressServiceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.service</a> &gt; <span class="el_source">AddressServiceTest.java</span></div><h1>AddressServiceTest.java</h1><pre class="source lang-java linenums">package com.example.student.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.student.dao.AddressDao;
+import com.example.student.entity.Address;
+
+@SpringBootTest
+<span class="fc" id="L24">public class AddressServiceTest {</span>
+
+    @Mock
+    private AddressDao addressDao;
+
+    @InjectMocks
+    private AddressService addressService;
+
+    @Test
+    public void testSave() {
+<span class="fc" id="L34">        Address address = new Address();</span>
+<span class="fc" id="L35">        when(addressDao.save(any(Address.class))).thenReturn(address);</span>
+
+<span class="fc" id="L37">        Address savedAddress = addressService.save(address);</span>
+
+<span class="fc" id="L39">        assertThat(savedAddress).isNotNull();</span>
+<span class="fc" id="L40">        verify(addressDao, times(1)).save(address);</span>
+<span class="fc" id="L41">    }</span>
+
+    @Test
+    public void testGetAllAddresses() {
+<span class="fc" id="L45">        Address address1 = new Address();</span>
+<span class="fc" id="L46">        Address address2 = new Address();</span>
+<span class="fc" id="L47">        List&lt;Address&gt; addresses = Arrays.asList(address1, address2);</span>
+<span class="fc" id="L48">        when(addressDao.findAll()).thenReturn(addresses);</span>
+
+<span class="fc" id="L50">        List&lt;Address&gt; result = addressService.getAllAddresses();</span>
+
+<span class="fc" id="L52">        assertThat(result).isNotNull();</span>
+<span class="fc" id="L53">        assertThat(result.size()).isEqualTo(2);</span>
+<span class="fc" id="L54">        verify(addressDao, times(1)).findAll();</span>
+<span class="fc" id="L55">    }</span>
+
+    @Test
+    public void testGetAddressById() {
+<span class="fc" id="L59">        Long id = 1L;</span>
+<span class="fc" id="L60">        Address address = new Address();</span>
+<span class="fc" id="L61">        when(addressDao.findById(id)).thenReturn(Optional.of(address));</span>
+
+<span class="fc" id="L63">        Optional&lt;Address&gt; result = addressService.getAddressById(id);</span>
+
+<span class="fc" id="L65">        assertThat(result).isPresent();</span>
+<span class="fc" id="L66">        assertThat(result.get()).isEqualTo(address);</span>
+<span class="fc" id="L67">        verify(addressDao, times(1)).findById(id);</span>
+<span class="fc" id="L68">    }</span>
+
+    @Test
+    public void testCreateAddress() {
+<span class="fc" id="L72">        Address address = new Address();</span>
+<span class="fc" id="L73">        when(addressDao.save(any(Address.class))).thenReturn(address);</span>
+
+<span class="fc" id="L75">        Address createdAddress = addressService.createAddress(address);</span>
+
+<span class="fc" id="L77">        assertThat(createdAddress).isNotNull();</span>
+<span class="fc" id="L78">        verify(addressDao, times(1)).save(address);</span>
+<span class="fc" id="L79">    }</span>
+
+    @Test
+    public void testUpdateAddress() {
+<span class="fc" id="L83">        Long id = 1L;</span>
+<span class="fc" id="L84">        Address existingAddress = new Address();</span>
+<span class="fc" id="L85">        existingAddress.setAddressId(id);</span>
+<span class="fc" id="L86">        existingAddress.setAddress(&quot;Old Address&quot;);</span>
+<span class="fc" id="L87">        existingAddress.setDistrict(&quot;Old District&quot;);</span>
+<span class="fc" id="L88">        existingAddress.setPincode(&quot;Old Pincode&quot;);</span>
+<span class="fc" id="L89">        existingAddress.setState(&quot;Old State&quot;);</span>
+
+<span class="fc" id="L91">        Address newAddress = new Address();</span>
+<span class="fc" id="L92">        newAddress.setAddress(&quot;New Address&quot;);</span>
+<span class="fc" id="L93">        newAddress.setDistrict(&quot;New District&quot;);</span>
+<span class="fc" id="L94">        newAddress.setPincode(&quot;New Pincode&quot;);</span>
+<span class="fc" id="L95">        newAddress.setState(&quot;New State&quot;);</span>
+
+<span class="fc" id="L97">        when(addressDao.findById(id)).thenReturn(Optional.of(existingAddress));</span>
+<span class="fc" id="L98">        when(addressDao.save(any(Address.class))).thenReturn(existingAddress);</span>
+
+<span class="fc" id="L100">        Address updatedAddress = addressService.updateAddress(id, newAddress);</span>
+
+<span class="fc" id="L102">        assertThat(updatedAddress).isNotNull();</span>
+<span class="fc" id="L103">        assertThat(updatedAddress.getAddress()).isEqualTo(&quot;New Address&quot;);</span>
+<span class="fc" id="L104">        assertThat(updatedAddress.getDistrict()).isEqualTo(&quot;New District&quot;);</span>
+<span class="fc" id="L105">        assertThat(updatedAddress.getPincode()).isEqualTo(&quot;New Pincode&quot;);</span>
+<span class="fc" id="L106">        assertThat(updatedAddress.getState()).isEqualTo(&quot;New State&quot;);</span>
+<span class="fc" id="L107">        verify(addressDao, times(1)).findById(id);</span>
+<span class="fc" id="L108">        verify(addressDao, times(1)).save(existingAddress);</span>
+<span class="fc" id="L109">    }</span>
+
+    @Test
+    public void testUpdateAddress_NotFound() {
+<span class="fc" id="L113">        Long id = 1L;</span>
+<span class="fc" id="L114">        Address newAddress = new Address();</span>
+<span class="fc" id="L115">        when(addressDao.findById(id)).thenReturn(Optional.empty());</span>
+
+<span class="pc" id="L117">        assertThatThrownBy(() -&gt; addressService.updateAddress(id, newAddress))</span>
+<span class="fc" id="L118">                .isInstanceOf(RuntimeException.class)</span>
+<span class="fc" id="L119">                .hasMessageContaining(&quot;Address not found with id: &quot; + id);</span>
+
+<span class="fc" id="L121">        verify(addressDao, times(1)).findById(id);</span>
+<span class="fc" id="L122">        verify(addressDao, never()).save(any(Address.class));</span>
+<span class="fc" id="L123">    }</span>
+
+    @Test
+    public void testDeleteAddress() {
+<span class="fc" id="L127">        Long id = 1L;</span>
+<span class="fc" id="L128">        when(addressDao.existsById(id)).thenReturn(true);</span>
+
+<span class="fc" id="L130">        addressService.deleteAddress(id);</span>
+
+<span class="fc" id="L132">        verify(addressDao, times(1)).existsById(id);</span>
+<span class="fc" id="L133">        verify(addressDao, times(1)).deleteById(id);</span>
+<span class="fc" id="L134">    }</span>
+
+    @Test
+    public void testDeleteAddress_NotFound() {
+<span class="fc" id="L138">        Long id = 1L;</span>
+<span class="fc" id="L139">        when(addressDao.existsById(id)).thenReturn(false);</span>
+
+<span class="pc" id="L141">        assertThatThrownBy(() -&gt; addressService.deleteAddress(id))</span>
+<span class="fc" id="L142">                .isInstanceOf(RuntimeException.class)</span>
+<span class="fc" id="L143">                .hasMessageContaining(&quot;Address not found with id: &quot; + id);</span>
+
+<span class="fc" id="L145">        verify(addressDao, times(1)).existsById(id);</span>
+<span class="fc" id="L146">        verify(addressDao, never()).deleteById(id);</span>
+<span class="fc" id="L147">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>

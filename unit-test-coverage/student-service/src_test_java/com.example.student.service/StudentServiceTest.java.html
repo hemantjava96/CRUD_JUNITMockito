@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StudentServiceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.service</a> &gt; <span class="el_source">StudentServiceTest.java</span></div><h1>StudentServiceTest.java</h1><pre class="source lang-java linenums">package com.example.student.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.student.dao.StudentDao;
+import com.example.student.entity.Address;
+import com.example.student.entity.Name;
+import com.example.student.entity.Student;
+import com.example.student.util.StudentUtil;
+
+@SpringBootTest
+<span class="fc" id="L25">public class StudentServiceTest {</span>
+
+	@Mock
+	private StudentDao studentDao;
+
+	@Mock
+	private AddressService addressService;
+
+	@Mock
+	private NameService nameService;
+
+	@InjectMocks
+	private StudentService studentService;
+
+	@Test
+	public void saveAllTest() {
+<span class="fc" id="L41">		List&lt;Student&gt; students = StudentUtil.generateDummyStudents(5);</span>
+
+		// Mock behavior of AddressService to return the same address that is passed to it
+<span class="fc" id="L44">		when(addressService.save(any(Address.class))).thenAnswer(invocation -&gt; invocation.getArgument(0));</span>
+
+		// Mock behavior of NameService
+<span class="fc" id="L47">		when(nameService.save(any(Name.class))).thenAnswer(invocation -&gt; invocation.getArgument(0));</span>
+
+		// Mock behavior of StudentDao
+<span class="fc" id="L50">		when(studentDao.saveAll(students)).thenReturn(students);</span>
+
+		// Call the method under test
+<span class="fc" id="L53">		List&lt;Student&gt; savedStudents = studentService.saveAll(students);</span>
+
+		// Verify interactions and assertions
+<span class="fc" id="L56">		verify(addressService, times(5)).save(any(Address.class)); // Verify save method is called twice for address (once for each student)</span>
+<span class="fc" id="L57">		verify(nameService, times(5)).save(any(Name.class)); // Verify save method is called twice for name (once for each student)</span>
+<span class="fc" id="L58">		verify(studentDao, times(1)).saveAll(students); // Verify saveAll method is called once for students</span>
+<span class="fc" id="L59">		assertEquals(students.size(), savedStudents.size());</span>
+		// Additional assertions if needed
+<span class="fc" id="L61">	}</span>
+
+	@Test
+	public void getAllTest() {
+<span class="fc" id="L65">		List&lt;Student&gt; students = StudentUtil.generateDummyStudents(5);</span>
+
+		// Mock behavior of StudentDao
+<span class="fc" id="L68">		when(studentDao.findAll()).thenReturn(students);</span>
+<span class="fc" id="L69">		assertEquals(studentService.getAll().size(), students.size());</span>
+		// Additional assertions if needed
+<span class="fc" id="L71">	}</span>
+
+	@Test
+	public void saveTest() {
+<span class="fc" id="L75">		Student student = StudentUtil.generateDummyStudents(1).get(0);</span>
+
+		// Mock behavior of AddressService to return the same address that is passed to
+		// it
+<span class="fc" id="L79">		when(addressService.save(any(Address.class))).thenAnswer(invocation -&gt; invocation.getArgument(0));</span>
+
+		// Mock behavior of NameService
+<span class="fc" id="L82">		when(nameService.save(any(Name.class))).thenAnswer(invocation -&gt; invocation.getArgument(0));</span>
+
+		// Mock behavior of StudentDao
+<span class="fc" id="L85">		when(studentDao.save(student)).thenReturn(student);</span>
+
+<span class="fc" id="L87">		assertEquals(studentService.save(student).getName().getFname(), student.getName().getFname());</span>
+		// Additional assertions if needed
+<span class="fc" id="L89">	}</span>
+
+	@Test
+	public void getStudentsByFirstNameAndLastNameTest() {
+<span class="fc" id="L93">		List&lt;Student&gt; students = StudentUtil.generateDummyStudents(3);</span>
+
+		// Mock behavior of StudentDao
+<span class="fc" id="L96">		when(studentDao.findByName_FnameAndName_Lname(&quot;john&quot;, &quot;Don&quot;)).thenReturn(students);</span>
+
+<span class="fc" id="L98">		assertEquals(studentService.getStudentsByFirstNameAndLastName(&quot;john&quot;, &quot;Don&quot;).size(), students.size());</span>
+		// Additional assertions if needed
+<span class="fc" id="L100">	}</span>
+
+	@Test
+	public void getStudentByIdTest() {
+<span class="fc" id="L104">		Student student = StudentUtil.generateDummyStudents(1).get(0);</span>
+
+		// Mock behavior of StudentDao
+<span class="fc" id="L107">		when(studentDao.findById(1L)).thenReturn(Optional.of(student));</span>
+<span class="fc" id="L108">		assertEquals(studentService.getStudentById(1L).getAadhar(), student.getAadhar());</span>
+		// Additional assertions if needed
+<span class="fc" id="L110">	}</span>
+
+	@Test
+	public void updateAddressTest() {
+		// Mock data
+<span class="fc" id="L115">		Long studentId = 1L;</span>
+
+<span class="fc" id="L117">		Address existingAddress = new Address();</span>
+<span class="fc" id="L118">		existingAddress.setAddressId(1L);</span>
+<span class="fc" id="L119">		existingAddress.setAddress(&quot;Old Address&quot;);</span>
+<span class="fc" id="L120">		existingAddress.setDistrict(&quot;Old District&quot;);</span>
+<span class="fc" id="L121">		existingAddress.setPincode(&quot;123456&quot;);</span>
+<span class="fc" id="L122">		existingAddress.setState(&quot;Old State&quot;);</span>
+
+<span class="fc" id="L124">		Student student = new Student();</span>
+<span class="fc" id="L125">		student.setStudentId(studentId);</span>
+<span class="fc" id="L126">		student.setAddress(existingAddress);</span>
+
+<span class="fc" id="L128">		Address newAddress = new Address();</span>
+<span class="fc" id="L129">		newAddress.setAddress(&quot;New Address&quot;);</span>
+<span class="fc" id="L130">		newAddress.setDistrict(&quot;New District&quot;);</span>
+<span class="fc" id="L131">		newAddress.setPincode(&quot;654321&quot;);</span>
+<span class="fc" id="L132">		newAddress.setState(&quot;New State&quot;);</span>
+
+		// Mock behavior
+<span class="fc" id="L135">		when(studentDao.findById(studentId)).thenReturn(Optional.of(student));</span>
+<span class="fc" id="L136">		when(studentDao.save(any(Student.class))).thenReturn(student);</span>
+
+		// Call the method under test
+<span class="fc" id="L139">		Student updatedStudent = studentService.updateAddress(studentId, newAddress);</span>
+
+		// Verify interactions
+<span class="fc" id="L142">		verify(studentDao, times(1)).findById(studentId);</span>
+<span class="fc" id="L143">		verify(studentDao, times(1)).save(any(Student.class));</span>
+
+		// Verify that the address was updated correctly
+<span class="fc" id="L146">		assertThat(updatedStudent.getAddress().getAddress()).isEqualTo(newAddress.getAddress());</span>
+<span class="fc" id="L147">		assertThat(updatedStudent.getAddress().getDistrict()).isEqualTo(newAddress.getDistrict());</span>
+<span class="fc" id="L148">		assertThat(updatedStudent.getAddress().getPincode()).isEqualTo(newAddress.getPincode());</span>
+<span class="fc" id="L149">		assertThat(updatedStudent.getAddress().getState()).isEqualTo(newAddress.getState());</span>
+<span class="fc" id="L150">	}</span>
+	
+	@Test
+	public void updateAddressTest1() {
+		// Mock data
+<span class="fc" id="L155">		Long studentId = 1L;</span>
+
+<span class="fc" id="L157">		Address existingAddress = null;</span>
+
+<span class="fc" id="L159">		Student student = new Student();</span>
+<span class="fc" id="L160">		student.setStudentId(studentId);</span>
+<span class="fc" id="L161">		student.setAddress(existingAddress);</span>
+
+<span class="fc" id="L163">		Address newAddress = new Address();</span>
+<span class="fc" id="L164">		newAddress.setAddress(&quot;New Address&quot;);</span>
+<span class="fc" id="L165">		newAddress.setDistrict(&quot;New District&quot;);</span>
+<span class="fc" id="L166">		newAddress.setPincode(&quot;654321&quot;);</span>
+<span class="fc" id="L167">		newAddress.setState(&quot;New State&quot;);</span>
+
+		// Mock behavior
+<span class="fc" id="L170">		when(studentDao.findById(studentId)).thenReturn(Optional.of(student));</span>
+<span class="fc" id="L171">		when(studentDao.save(any(Student.class))).thenReturn(student);</span>
+
+		// Call the method under test
+<span class="fc" id="L174">		Student updatedStudent = studentService.updateAddress(studentId, newAddress);</span>
+
+		// Verify interactions
+<span class="fc" id="L177">		verify(studentDao, times(1)).findById(studentId);</span>
+<span class="fc" id="L178">		verify(studentDao, times(1)).save(any(Student.class));</span>
+
+		// Verify that the address was updated correctly
+<span class="fc" id="L181">		assertThat(updatedStudent.getAddress().getAddress()).isEqualTo(newAddress.getAddress());</span>
+<span class="fc" id="L182">		assertThat(updatedStudent.getAddress().getDistrict()).isEqualTo(newAddress.getDistrict());</span>
+<span class="fc" id="L183">		assertThat(updatedStudent.getAddress().getPincode()).isEqualTo(newAddress.getPincode());</span>
+<span class="fc" id="L184">		assertThat(updatedStudent.getAddress().getState()).isEqualTo(newAddress.getState());</span>
+<span class="fc" id="L185">	}</span>
+	
+	@Test
+	public void updateAddressTest2() {
+
+		// Mock behavior
+<span class="fc" id="L191">		when(studentDao.findById(any(Long.class))).thenReturn(Optional.empty());</span>
+		
+
+		// Call the method under test
+<span class="fc" id="L195">		Student updatedStudent = studentService.updateAddress(1L, null);</span>
+
+		// Verify interactions
+<span class="fc" id="L198">		verify(studentDao, times(1)).findById(1L);</span>
+		
+		// Verify that the address was updated correctly
+<span class="fc" id="L201">		assertEquals(updatedStudent, null);</span>
+<span class="fc" id="L202">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>

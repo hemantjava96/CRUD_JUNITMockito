@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>NameService.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.service</a> &gt; <span class="el_source">NameService.java</span></div><h1>NameService.java</h1><pre class="source lang-java linenums">package com.example.student.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.student.dao.NameDao;
+import com.example.student.entity.Name;
+
+@Service
+<span class="fc" id="L13">public class NameService {</span>
+
+	@Autowired
+    private NameDao nameDao;
+
+	public Name save(Name name) {
+<span class="fc" id="L19">		return nameDao.save(name);</span>
+	}
+	
+    public List&lt;Name&gt; getAllNames() {
+<span class="fc" id="L23">        return nameDao.findAll();</span>
+    }
+
+    public Optional&lt;Name&gt; getNameById(Long id) {
+<span class="fc" id="L27">        return nameDao.findById(id);</span>
+    }
+
+    public Name createName(Name name) {
+<span class="fc" id="L31">        return nameDao.save(name);</span>
+    }
+
+    public Name updateName(Long id, Name newName) {
+<span class="fc" id="L35">        return nameDao.findById(id)</span>
+<span class="fc" id="L36">                .map(name -&gt; {</span>
+<span class="fc" id="L37">                    name.setFname(newName.getFname());</span>
+<span class="fc" id="L38">                    name.setLname(newName.getLname());</span>
+<span class="fc" id="L39">                    name.setMname(newName.getMname());</span>
+<span class="fc" id="L40">                    return nameDao.save(name);</span>
+                })
+<span class="fc" id="L42">                .orElseThrow(() -&gt; new RuntimeException(&quot;Name not found with id: &quot; + id));</span>
+    }
+
+    public void deleteName(Long id) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (nameDao.existsById(id)) {</span>
+<span class="fc" id="L47">            nameDao.deleteById(id);</span>
+<span class="fc" id="L48">        } else {</span>
+<span class="fc" id="L49">            throw new RuntimeException(&quot;Name not found with id: &quot; + id);</span>
+        }
+<span class="fc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>NameServiceTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.service</a> &gt; <span class="el_source">NameServiceTest.java</span></div><h1>NameServiceTest.java</h1><pre class="source lang-java linenums">package com.example.student.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.student.dao.NameDao;
+import com.example.student.entity.Name;
+
+@SpringBootTest
+<span class="fc" id="L26">public class NameServiceTest {</span>
+
+    @Mock
+    private NameDao nameDao;
+
+    @InjectMocks
+    private NameService nameService;
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L36">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L37">    }</span>
+
+    @Test
+    public void testSave() {
+<span class="fc" id="L41">        Name name = new Name();</span>
+<span class="fc" id="L42">        when(nameDao.save(any(Name.class))).thenReturn(name);</span>
+
+<span class="fc" id="L44">        Name savedName = nameService.save(name);</span>
+
+<span class="fc" id="L46">        assertThat(savedName).isNotNull();</span>
+<span class="fc" id="L47">        verify(nameDao, times(1)).save(name);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Test
+    public void testGetAllNames() {
+<span class="fc" id="L52">        Name name1 = new Name();</span>
+<span class="fc" id="L53">        Name name2 = new Name();</span>
+<span class="fc" id="L54">        List&lt;Name&gt; names = Arrays.asList(name1, name2);</span>
+<span class="fc" id="L55">        when(nameDao.findAll()).thenReturn(names);</span>
+
+<span class="fc" id="L57">        List&lt;Name&gt; result = nameService.getAllNames();</span>
+
+<span class="fc" id="L59">        assertThat(result).isNotNull();</span>
+<span class="fc" id="L60">        assertThat(result.size()).isEqualTo(2);</span>
+<span class="fc" id="L61">        verify(nameDao, times(1)).findAll();</span>
+<span class="fc" id="L62">    }</span>
+
+    @Test
+    public void testGetNameById() {
+<span class="fc" id="L66">        Long id = 1L;</span>
+<span class="fc" id="L67">        Name name = new Name();</span>
+<span class="fc" id="L68">        when(nameDao.findById(id)).thenReturn(Optional.of(name));</span>
+
+<span class="fc" id="L70">        Optional&lt;Name&gt; result = nameService.getNameById(id);</span>
+
+<span class="fc" id="L72">        assertThat(result).isPresent();</span>
+<span class="fc" id="L73">        assertThat(result.get()).isEqualTo(name);</span>
+<span class="fc" id="L74">        verify(nameDao, times(1)).findById(id);</span>
+<span class="fc" id="L75">    }</span>
+
+    @Test
+    public void testCreateName() {
+<span class="fc" id="L79">        Name name = new Name();</span>
+<span class="fc" id="L80">        when(nameDao.save(any(Name.class))).thenReturn(name);</span>
+
+<span class="fc" id="L82">        Name createdName = nameService.createName(name);</span>
+
+<span class="fc" id="L84">        assertThat(createdName).isNotNull();</span>
+<span class="fc" id="L85">        verify(nameDao, times(1)).save(name);</span>
+<span class="fc" id="L86">    }</span>
+
+    @Test
+    public void testUpdateName() {
+<span class="fc" id="L90">        Long id = 1L;</span>
+<span class="fc" id="L91">        Name existingName = new Name();</span>
+<span class="fc" id="L92">        existingName.setNameId(id);</span>
+<span class="fc" id="L93">        existingName.setFname(&quot;Old First Name&quot;);</span>
+<span class="fc" id="L94">        existingName.setLname(&quot;Old Last Name&quot;);</span>
+<span class="fc" id="L95">        existingName.setMname(&quot;Old Middle Name&quot;);</span>
+
+<span class="fc" id="L97">        Name newName = new Name();</span>
+<span class="fc" id="L98">        newName.setFname(&quot;New First Name&quot;);</span>
+<span class="fc" id="L99">        newName.setLname(&quot;New Last Name&quot;);</span>
+<span class="fc" id="L100">        newName.setMname(&quot;New Middle Name&quot;);</span>
+
+<span class="fc" id="L102">        when(nameDao.findById(id)).thenReturn(Optional.of(existingName));</span>
+<span class="fc" id="L103">        when(nameDao.save(any(Name.class))).thenReturn(existingName);</span>
+
+<span class="fc" id="L105">        Name updatedName = nameService.updateName(id, newName);</span>
+
+<span class="fc" id="L107">        assertThat(updatedName).isNotNull();</span>
+<span class="fc" id="L108">        assertThat(updatedName.getFname()).isEqualTo(&quot;New First Name&quot;);</span>
+<span class="fc" id="L109">        assertThat(updatedName.getLname()).isEqualTo(&quot;New Last Name&quot;);</span>
+<span class="fc" id="L110">        assertThat(updatedName.getMname()).isEqualTo(&quot;New Middle Name&quot;);</span>
+<span class="fc" id="L111">        verify(nameDao, times(1)).findById(id);</span>
+<span class="fc" id="L112">        verify(nameDao, times(1)).save(existingName);</span>
+<span class="fc" id="L113">    }</span>
+
+    @Test
+    public void testUpdateName_NotFound() {
+<span class="fc" id="L117">        Long id = 1L;</span>
+<span class="fc" id="L118">        Name newName = new Name();</span>
+<span class="fc" id="L119">        when(nameDao.findById(id)).thenReturn(Optional.empty());</span>
+
+<span class="pc" id="L121">        assertThatThrownBy(() -&gt; nameService.updateName(id, newName))</span>
+<span class="fc" id="L122">                .isInstanceOf(RuntimeException.class)</span>
+<span class="fc" id="L123">                .hasMessageContaining(&quot;Name not found with id: &quot; + id);</span>
+
+<span class="fc" id="L125">        verify(nameDao, times(1)).findById(id);</span>
+<span class="fc" id="L126">        verify(nameDao, never()).save(any(Name.class));</span>
+<span class="fc" id="L127">    }</span>
+
+    @Test
+    public void testDeleteName() {
+<span class="fc" id="L131">        Long id = 1L;</span>
+<span class="fc" id="L132">        when(nameDao.existsById(id)).thenReturn(true);</span>
+
+<span class="fc" id="L134">        nameService.deleteName(id);</span>
+
+<span class="fc" id="L136">        verify(nameDao, times(1)).existsById(id);</span>
+<span class="fc" id="L137">        verify(nameDao, times(1)).deleteById(id);</span>
+<span class="fc" id="L138">    }</span>
+
+    @Test
+    public void testDeleteName_NotFound() {
+<span class="fc" id="L142">        Long id = 1L;</span>
+<span class="fc" id="L143">        when(nameDao.existsById(id)).thenReturn(false);</span>
+
+<span class="pc" id="L145">        assertThatThrownBy(() -&gt; nameService.deleteName(id))</span>
+<span class="fc" id="L146">                .isInstanceOf(RuntimeException.class)</span>
+<span class="fc" id="L147">                .hasMessageContaining(&quot;Name not found with id: &quot; + id);</span>
+
+<span class="fc" id="L149">        verify(nameDao, times(1)).existsById(id);</span>
+<span class="fc" id="L150">        verify(nameDao, never()).deleteById(id);</span>
+<span class="fc" id="L151">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>

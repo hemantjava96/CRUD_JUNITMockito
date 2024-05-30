@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>NameDaoTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.dao</a> &gt; <span class="el_source">NameDaoTest.java</span></div><h1>NameDaoTest.java</h1><pre class="source lang-java linenums">package com.example.student.dao;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import com.example.student.entity.Name;
+import com.example.student.util.StudentUtil;
+
+@DataJpaTest(showSql = true)
+@AutoConfigureTestDatabase(replace = Replace.NONE) // Use the test database configuration
+@ActiveProfiles(&quot;test&quot;) // Activate the test profile
+<span class="fc" id="L18">public class NameDaoTest {</span>
+	
+
+	@Autowired
+	private NameDao nameDao;
+
+	@Test
+	public void testSave() {
+<span class="fc" id="L26">		Name name = StudentUtil.generateDummyStudents(1).get(0).getName();</span>
+<span class="fc" id="L27">		System.out.println(name);</span>
+		
+<span class="fc" id="L29">		nameDao.save(name);</span>
+<span class="fc" id="L30">		Long nameId=name.getNameId();</span>
+		
+		// Retrieve the name from the database
+<span class="fc" id="L33">		Name foundName = nameDao.findById(nameId).orElse(null);</span>
+	    
+	    // Verify that the name was saved and retrieved correctly
+<span class="fc" id="L36">	    assertThat(foundName).isNotNull();</span>
+<span class="fc" id="L37">	    assertThat(foundName.getNameId()).isEqualTo(nameId);</span>
+<span class="fc" id="L38">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>
