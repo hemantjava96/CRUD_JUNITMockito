@@ -1,5 +1,6 @@
 package com.example.student.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +29,8 @@ public class Student {
     private Name name;
     
     private Integer standard;
+    
+    @Column(unique = true, nullable = false)
     private String aadhar;
     
     // Getters and setters

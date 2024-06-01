@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.student.dao.StudentDao;
 import com.example.student.entity.Address;
@@ -31,6 +32,7 @@ public class StudentService {
 	@Autowired
 	private NameService nameService;
 
+	@Transactional
 	public List<Student> saveAll(List<Student> students) {
 		students.stream().forEach(student -> {
 			// Save address if not null and not yet saved
@@ -52,6 +54,7 @@ public class StudentService {
 		return studentDao.findAll();
 	}
 
+	@Transactional
 	public Student save(Student student) {
 		// Save address if not null and not yet saved
 		Address address = student.getAddress();
@@ -66,6 +69,7 @@ public class StudentService {
 		return studentDao.save(student);
 	}
 
+	@Transactional
 	public Student updateAddress(Long studentId, Address newAddress) {
 		Optional<Student> optionalStudent = studentDao.findById(studentId);
 		if (optionalStudent.isPresent()) {
