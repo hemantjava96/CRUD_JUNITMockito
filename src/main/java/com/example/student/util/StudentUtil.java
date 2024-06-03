@@ -18,28 +18,35 @@ public class StudentUtil {
 		}
 		return students;
 	}
+
 	private static Student createDummyStudent(int index) {
-        Student student = new Student();
-        student.setName(createDummyName(index));
-        student.setAddress(createDummyAddress(index));
-        student.setStandard(RANDOM.nextInt(12)+1); // Standards 1 to 12
-        student.setAadhar("Aadhar" + (1000 + index));
-        return student;
-    }
+		Student student = new Student();
+		student.setName(createDummyName(index));
+		student.setAddress(createDummyAddress(index));
+		student.setStandard(RANDOM.nextInt(12) + 1); // Standards 1 to 12
+		student.setAadhar("Aadhar" + (1000 + index));
+		if (index % 3 == 0)
+			student.setRole("MONITOR");
+		else
+			student.setRole("STUDENT");
+		return student;
+	}
+
 	private static Name createDummyName(int index) {
-        Name name = new Name();
-        name.setFname("FirstName" + index);
-        name.setLname("LastName" + index);
-        name.setMname("MiddleName" + index);
-        return name;
-    }
+		Name name = new Name();
+		name.setFname("FirstName" + index);
+		name.setLname("LastName" + index);
+		name.setMname("MiddleName" + index);
+		return name;
+	}
+
 	private static Address createDummyAddress(int index) {
-        Address address = new Address();
-        address.setAddress("AddressLine" + index);
-        address.setDistrict("District" + index);
-        address.setPincode("123456" + index);
-        address.setState("State" + index);
-        return address;
-    }
+		Address address = new Address();
+		address.setAddress("AddressLine" + index);
+		address.setDistrict("District" + index);
+		address.setPincode("123456" + index);
+		address.setState("State" + index);
+		return address;
+	}
 
 }
