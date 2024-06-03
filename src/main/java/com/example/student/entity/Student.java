@@ -33,5 +33,7 @@ public class Student {
     @Column(unique = true, nullable = false)
     private String aadhar;
     
+    private String role;
+    
     // Getters and setters
 }

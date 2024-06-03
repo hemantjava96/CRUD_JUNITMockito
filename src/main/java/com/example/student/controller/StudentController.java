@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import com.example.student.entity.Student;
 import com.example.student.service.StudentService;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/private/student")
 public class StudentController {
 	
 	@Autowired
@@ -41,11 +42,13 @@ public class StudentController {
     }
 	
 	@GetMapping("/get")
+	@PreAuthorize("hasAuthority('MONITOR')")
     public List<Student> getStudentsByFirstNameAndLastName(@RequestParam String fname, @RequestParam String lname) {
         return studentService.getStudentsByFirstNameAndLastName(fname, lname);
     }
 	
 	@GetMapping("/get/{studentId}")
+	@PreAuthorize("hasAuthority('STUDENT')")
     public Student getStudentById(@PathVariable Long studentId) {
         return studentService.getStudentById(studentId);
     }
