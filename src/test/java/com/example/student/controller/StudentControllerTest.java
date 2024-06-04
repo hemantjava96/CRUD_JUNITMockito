@@ -28,11 +28,10 @@ import com.example.student.util.StudentUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class StudentControllerTest {
-	
+
 	private MockMvc mockMvc;
 
 	@Autowired
@@ -41,41 +40,36 @@ public class StudentControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 
-
 	@MockBean
 	StudentService studentService;
-	
+
 	@BeforeEach
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
-	
-
-	 @Test
-	    @WithMockUser(username = "user", roles = {"STUDENT"})
-	    public void saveAllTest() throws JsonProcessingException, Exception {
-	        List<Student> students = generateDummyStudents(10);
-	        when(studentService.saveAll(students)).thenReturn(students);
-	        mockMvc.perform(post("/private/student/saveAll")
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .content(mapper.writeValueAsString(students)))
-	                .andExpect(status().isOk());
-	    }
-
-	 @Test
-	    @WithMockUser(username = "user", authorities = {"STUDENT"})
-	    public void getStudentByIdTest() throws JsonProcessingException, Exception {
-	        Student student = generateDummyStudents(1).get(0);
-	        Long studentId = student.getStudentId();
-	        System.out.println(student);
-	        when(studentService.getStudentById(12L)).thenReturn(student);
-	        mockMvc.perform(get("/private/student/get/{studentId}", 12).contentType(MediaType.APPLICATION_JSON))
-	               .andExpect(status().isOk())
-	               .andExpect(jsonPath("$.name").value(student.getName()));
-	    }
 
 	@Test
-	@WithMockUser(username = "user", authorities = {"STUDENT"})
+	@WithMockUser(username = "user", roles = { "STUDENT" })
+	public void saveAllTest() throws JsonProcessingException, Exception {
+		List<Student> students = generateDummyStudents(10);
+		when(studentService.saveAll(students)).thenReturn(students);
+		mockMvc.perform(post("/private/student/saveAll").contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(students))).andExpect(status().isOk());
+	}
+
+	@Test
+	@WithMockUser(username = "user", authorities = { "STUDENT" })
+	public void getStudentByIdTest() throws JsonProcessingException, Exception {
+		Student student = generateDummyStudents(1).get(0);
+		Long studentId = student.getStudentId();
+		System.out.println(student);
+		when(studentService.getStudentById(12L)).thenReturn(student);
+		mockMvc.perform(get("/private/student/get/{studentId}", 12).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.name").value(student.getName()));
+	}
+
+	@Test
+	@WithMockUser(username = "user", authorities = { "STUDENT" })
 	public void updateAddressTest() throws JsonProcessingException, Exception {
 		// Generate dummy student data
 		Student student = generateDummyStudents(1).get(0);
@@ -91,7 +85,7 @@ public class StudentControllerTest {
 	}
 
 	@Test
-	@WithMockUser(username = "user", authorities = {"STUDENT"})
+	@WithMockUser(username = "user", authorities = { "STUDENT" })
 	public void updateAddressTestNull() throws JsonProcessingException, Exception {
 		// Generate dummy student data
 		Student student = generateDummyStudents(1).get(0);
@@ -106,7 +100,7 @@ public class StudentControllerTest {
 	}
 
 	@Test
-	@WithMockUser(username = "user", authorities = {"MONITOR"})
+	@WithMockUser(username = "user", authorities = { "MONITOR" })
 	public void getStudentsByFirstNameAndLastNameTest() throws Exception {
 		// Define query parameters
 		Student student = generateDummyStudents(1).get(0);
