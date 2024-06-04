@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.entity</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package com.example.student.entity;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (04-Jun-2024 11:12:07 am)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.entity</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package com.example.student.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,9 +12,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-<span class="pc bpc" id="L14" title="33 of 46 branches missed.">@Data</span>
-<span class="fc" id="L15">@NoArgsConstructor</span>
-<span class="nc" id="L16">@AllArgsConstructor</span>
+<span class="pc bpc" id="L15" title="39 of 54 branches missed.">@Data</span>
+<span class="fc" id="L16">@NoArgsConstructor</span>
+<span class="nc" id="L17">@AllArgsConstructor</span>
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +29,12 @@ public class Student {
     private Name name;
     
     private Integer standard;
+    
+    @Column(unique = true, nullable = false)
     private String aadhar;
+    
+    private String role;
     
     // Getters and setters
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (04-Jun-2024 11:12:07 am)</div></body></html>

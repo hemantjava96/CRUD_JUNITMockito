@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserInfoUserDetailsService.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (04-Jun-2024 11:12:07 am)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.config</a> &gt; <span class="el_source">UserInfoUserDetailsService.java</span></div><h1>UserInfoUserDetailsService.java</h1><pre class="source lang-java linenums">package com.example.student.config;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.example.student.dao.StudentDao;
+import com.example.student.entity.Student;
+import com.example.student.service.StudentService;
+
+<span class="fc" id="L14">public class UserInfoUserDetailsService implements UserDetailsService {</span>
+
+	@Autowired
+	private StudentDao studentDao;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Long studentId;
+		try {
+<span class="nc" id="L23">			studentId = Long.parseLong(username);</span>
+<span class="nc" id="L24">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L25">			throw new UsernameNotFoundException(&quot;Invalid user ID: &quot; + username);</span>
+		}
+<span class="nc" id="L27">		System.out.println(&quot;UserInfoUserDetailsService.loadUserByUsername() : &quot; + studentId + &quot;,&quot; + username);</span>
+<span class="nc" id="L28">		Optional&lt;Student&gt; student = studentDao.findById(studentId);</span>
+<span class="nc" id="L29">		return student.map(UserInfoUserDetails::new)</span>
+<span class="nc" id="L30">				.orElseThrow(() -&gt; new UsernameNotFoundException(&quot;user not found &quot; + username));</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (04-Jun-2024 11:12:07 am)</div></body></html>

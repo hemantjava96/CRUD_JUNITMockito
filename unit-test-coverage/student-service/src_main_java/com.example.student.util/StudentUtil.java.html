@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StudentUtil.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (30-May-2024 4:37:15 pm)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.util</a> &gt; <span class="el_source">StudentUtil.java</span></div><h1>StudentUtil.java</h1><pre class="source lang-java linenums">package com.example.student.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StudentUtil.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (04-Jun-2024 11:12:07 am)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.util</a> &gt; <span class="el_source">StudentUtil.java</span></div><h1>StudentUtil.java</h1><pre class="source lang-java linenums">package com.example.student.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +18,36 @@ import com.example.student.entity.Student;
 		}
 <span class="fc" id="L19">		return students;</span>
 	}
+
 	private static Student createDummyStudent(int index) {
-<span class="fc" id="L22">        Student student = new Student();</span>
-<span class="fc" id="L23">        student.setName(createDummyName(index));</span>
-<span class="fc" id="L24">        student.setAddress(createDummyAddress(index));</span>
-<span class="fc" id="L25">        student.setStandard(RANDOM.nextInt(12)+1); // Standards 1 to 12</span>
-<span class="fc" id="L26">        student.setAadhar(&quot;Aadhar&quot; + (1000 + index));</span>
-<span class="fc" id="L27">        return student;</span>
-    }
+<span class="fc" id="L23">		Student student = new Student();</span>
+<span class="fc" id="L24">		student.setName(createDummyName(index));</span>
+<span class="fc" id="L25">		student.setAddress(createDummyAddress(index));</span>
+<span class="fc" id="L26">		student.setStandard(RANDOM.nextInt(12) + 1); // Standards 1 to 12</span>
+<span class="fc" id="L27">		student.setAadhar(&quot;Aadhar&quot; + (1000 + index));</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (index % 3 == 0)</span>
+<span class="fc" id="L29">			student.setRole(&quot;MONITOR&quot;);</span>
+		else
+<span class="fc" id="L31">			student.setRole(&quot;STUDENT&quot;);</span>
+<span class="fc" id="L32">		return student;</span>
+	}
+
 	private static Name createDummyName(int index) {
-<span class="fc" id="L30">        Name name = new Name();</span>
-<span class="fc" id="L31">        name.setFname(&quot;FirstName&quot; + index);</span>
-<span class="fc" id="L32">        name.setLname(&quot;LastName&quot; + index);</span>
-<span class="fc" id="L33">        name.setMname(&quot;MiddleName&quot; + index);</span>
-<span class="fc" id="L34">        return name;</span>
-    }
+<span class="fc" id="L36">		Name name = new Name();</span>
+<span class="fc" id="L37">		name.setFname(&quot;FirstName&quot; + index);</span>
+<span class="fc" id="L38">		name.setLname(&quot;LastName&quot; + index);</span>
+<span class="fc" id="L39">		name.setMname(&quot;MiddleName&quot; + index);</span>
+<span class="fc" id="L40">		return name;</span>
+	}
+
 	private static Address createDummyAddress(int index) {
-<span class="fc" id="L37">        Address address = new Address();</span>
-<span class="fc" id="L38">        address.setAddress(&quot;AddressLine&quot; + index);</span>
-<span class="fc" id="L39">        address.setDistrict(&quot;District&quot; + index);</span>
-<span class="fc" id="L40">        address.setPincode(&quot;123456&quot; + index);</span>
-<span class="fc" id="L41">        address.setState(&quot;State&quot; + index);</span>
-<span class="fc" id="L42">        return address;</span>
-    }
+<span class="fc" id="L44">		Address address = new Address();</span>
+<span class="fc" id="L45">		address.setAddress(&quot;AddressLine&quot; + index);</span>
+<span class="fc" id="L46">		address.setDistrict(&quot;District&quot; + index);</span>
+<span class="fc" id="L47">		address.setPincode(&quot;123456&quot; + index);</span>
+<span class="fc" id="L48">		address.setState(&quot;State&quot; + index);</span>
+<span class="fc" id="L49">		return address;</span>
+	}
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (30-May-2024 4:37:15 pm)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (04-Jun-2024 11:12:07 am)</div></body></html>
