@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SpringSecurity.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (04-Jun-2024 11:12:07 am)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.config</a> &gt; <span class="el_source">SpringSecurity.java</span></div><h1>SpringSecurity.java</h1><pre class="source lang-java linenums">package com.example.student.config;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SpringSecurity.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">student-service (05-Jun-2024 2:07:07 am)</a> &gt; <a href="../../index.html" class="el_group">student-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.example.student.config</a> &gt; <span class="el_source">SpringSecurity.java</span></div><h1>SpringSecurity.java</h1><pre class="source lang-java linenums">package com.example.student.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -16,52 +18,71 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-<span class="fc" id="L19">public class SpringSecurity {</span>
+<span class="fc" id="L21">public class SpringSecurity {</span>
+	
+	
+	
+	/*
+	 * We need below stuff to authenticate our API
+	 * 1. user entity to represent the user data model (Student : studentId/aadhar)
+	 * 2. A repository StudentDao to interact with DB
+	 * 3. UserDetailsService implementation UserInfoUserDetailsService to fetch user details
+	 * 4. A configuration to integrate everything with Spring Security
+	 */
+	
 
 	@Bean
 	public UserDetailsService getUserDetailService() {
-//		UserDetails admin = User.withUsername(&quot;hemant-all&quot;).password(encoder.encode(&quot;password-all&quot;)).roles(&quot;ADMIN&quot;)
-//				.build();
-//		UserDetails user = User.withUsername(&quot;hemant&quot;).password(encoder.encode(&quot;password&quot;)).roles(&quot;USER&quot;, &quot;HR&quot;).build();
-//		return new InMemoryUserDetailsManager(admin, user);
+		/*
+		UserDetails admin = User.withUsername(&quot;hemant-all&quot;).password(encoder.encode(&quot;password-all&quot;)).roles(&quot;ADMIN&quot;)
+				.build();
+		UserDetails user = User.withUsername(&quot;hemant&quot;).password(encoder.encode(&quot;password&quot;)).roles(&quot;USER&quot;, &quot;HR&quot;).build();
+		return new InMemoryUserDetailsManager(admin, user);
+		*/
 
-<span class="fc" id="L28">		return new UserInfoUserDetailsService();</span>
+<span class="fc" id="L43">		return new UserInfoUserDetailsService();</span>
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-<span class="fc" id="L33">		return new BCryptPasswordEncoder();</span>
+<span class="fc" id="L48">		return new BCryptPasswordEncoder();</span>
 	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-<span class="fc" id="L38">		  http.csrf().disable()</span>
-<span class="fc" id="L39">          .authorizeRequests(authorize -&gt; authorize</span>
-<span class="fc" id="L40">              .requestMatchers(&quot;/public/**&quot;).permitAll()</span>
-<span class="fc" id="L41">              .requestMatchers(&quot;/private/**&quot;).authenticated()</span>
-          )
-<span class="fc" id="L43">          .formLogin(form -&gt; form</span>
-<span class="fc" id="L44">              .loginPage(&quot;/login&quot;)</span>
-<span class="fc" id="L45">              .permitAll()</span>
-          )
-<span class="fc" id="L47">          .httpBasic();</span>
-      
-<span class="fc" id="L49">      return http.build();</span>
+		/*
+		 * authorizeRequests() -&gt; start authorizing requests
+		 *requestMatchers(&quot;/public/**&quot;).permitAll() -&gt; no authentication required
+		 *requestMatchers(&quot;/private/**&quot;).authenticated() -&gt; authenticate these requests
+		 *if .logout() is configured then /logout path will kill the session
+		 *
+		 */
+		
+<span class="fc" id="L61">		return http</span>
+<span class="fc" id="L62">			    .authorizeHttpRequests(request -&gt; request</span>
+<span class="fc" id="L63">			        .requestMatchers(&quot;/public/**&quot;).permitAll()</span>
+<span class="fc" id="L64">			        .requestMatchers(&quot;/private/**&quot;).authenticated()</span>
+<span class="fc" id="L65">			        .anyRequest().authenticated()</span>
+			    )
+<span class="fc" id="L67">			    .httpBasic(Customizer.withDefaults())</span>
+<span class="fc" id="L68">			    .csrf(AbstractHttpConfigurer::disable)</span>
+<span class="fc" id="L69">			    .build();</span>
+		
 	}
 
 	@Bean
 	public PasswordEncoder NoOpPasswordEncoder() {
-<span class="fc" id="L54">		return NoOpPasswordEncoder.getInstance();</span>
+<span class="fc" id="L75">		return NoOpPasswordEncoder.getInstance();</span>
 	}
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
-<span class="fc" id="L59">		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();</span>
-<span class="fc" id="L60">		authenticationProvider.setUserDetailsService(getUserDetailService());</span>
+<span class="fc" id="L80">		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();</span>
+<span class="fc" id="L81">		authenticationProvider.setUserDetailsService(getUserDetailService());</span>
 		// authenticationProvider.setPasswordEncoder(passwordEncoder());
-<span class="fc" id="L62">		authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder());</span>
-<span class="fc" id="L63">		return authenticationProvider;</span>
+<span class="fc" id="L83">		authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder());</span>
+<span class="fc" id="L84">		return authenticationProvider;</span>
 	}
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (04-Jun-2024 11:12:07 am)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span>student-service (05-Jun-2024 2:07:07 am)</div></body></html>
